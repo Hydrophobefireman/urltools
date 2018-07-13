@@ -1,0 +1,201 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Base64 Encode And Decode</title>
+
+    <style>
+        .redir_img {
+            -moz-border-radius: 20px;
+            -webkit-border-radius: 20px;
+            border-radius: 20px;
+            padding: 8px;
+            background: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: none;
+            outline: none;
+        }
+
+        .cst {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .ipg {
+
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            padding: 8px;
+            border: none;
+            outline: none;
+            background: #3367d6;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class=cst>
+            <br>
+            <span>Choose one if the following</span>
+            <div>
+                <div class=buttons-row>
+                    <span class=button-sp>
+                        <button class=ipg id=urld>Base64 Decode</button>
+                        <button class=ipg id=urle>Base64 Encode</button>
+                        <script>
+                            var encode_button = document.getElementById("urle");
+                            var decode_button = document.getElementById("urld");
+                            encode_button.onclick = function () {
+                                document.getElementById("url-decoder").style.display = "none";
+                                document.getElementById("url-encoder").style.display = "block";
+                            }
+                            decode_button.onclick = function () {
+                                document.getElementById("url-decoder").style.display = "block";
+                                document.getElementById("url-encoder").style.display = "none";
+                            }
+                        </script>
+                    </span>
+                    <br>
+                    <br>
+                </div>
+                <button id=red_imgw class=redir_img>Click Here To Decode/Encode base64 Images</button>
+                <a id=cl_d_a href="/base64-image">
+                    <span></span>
+                </a>
+            </div>
+            <script>
+                var sclr = "#3367d6";
+                var clr = sclr;
+
+                var ub = document.getElementById("red_imgw");
+                ub.onmouseover = function () {
+                    ub.style.background = clr;
+                    ub.style.color = "#fff";
+                }
+                ub.onmouseout = function () {
+                    ub.style.background = "#fff";
+                    ub.style.color = "#000";
+
+                }
+                ub.ontouchstart = function () {
+                    ub.style.background = clr;
+                    ub.style.color = "#fff";
+                }
+                ub.ontouchend = function () {
+                    ub.style.background = "#fff";
+                    ub.style.color = "#000";
+
+                }
+                ub.onclick = function () {
+                    document.getElementById("cl_d_a").click();
+                }
+                var b = document.getElementById("urld");
+                b.onmouseover = function () {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.onmouseout = function () {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                b.ontouchstart = function () {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.ontouchend = function () {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                var ab = document.getElementById("urle");
+                ab.onmouseover = function () {
+                    ab.style.boxShadow = "3px 3px #d9dce0";
+                }
+                ab.onmouseout = function () {
+                    ab.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                ab.ontouchstart = function () {
+                    ab.style.boxShadow = "3px 3px #d9dce0";
+                }
+                ab.ontouchend = function () {
+                    ab.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+            </script>
+            <div id=url-encoder style="display: none;">
+                <span>Enter The Text You want to Encode</span>
+                <div class=txtar>
+                    <textarea id=enc style="height:200;width:90%;"></textarea>
+                    <div>
+                        <button id=f-enc class=ipg>encode text</button>
+                    </div>
+                </div>
+            </div>
+            <div id=url-decoder style="display: none;">
+                <span>Enter The Text You want to Decode</span>
+                <div class=txtar>
+                    <textarea id=dec style="height:200;width:90%;"></textarea>
+                    <div>
+                        <button id=f-dec class=ipg>decode text</button>
+                    </div>
+                </div>
+            </div>
+            <script>
+                var s = document.getElementById("f-enc");
+                var f = document.getElementById("f-dec");
+                s.onclick = function () {
+                    var e_ar = document.getElementById("enc");
+                    var sts = e_ar.value;
+                    params = "to_encode=" + sts;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/base64-text-encoder', true);
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var data = xhr.response;
+                            e_ar.value = data;
+                        }
+                    }
+                    xhr.send(params)
+                }
+                f.onclick = function () {
+                    var e_ar = document.getElementById("dec")
+                    var sts = e_ar.value;
+                    params = "to_decode=" + sts;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/base64-text-decoder', true);
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var data = xhr.response;
+                            e_ar.value = data;
+                        }
+                    }
+                    xhr.send(params)
+                }
+            </script>
+        </div>

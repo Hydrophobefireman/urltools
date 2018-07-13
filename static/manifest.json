@@ -1,0 +1,29 @@
+{
+  "name": "URLTools",
+  "short_name": "URLTools",
+  "icons": [{
+    "src": "/static/i.png",
+    "sizes": "128x128",
+    "type": "image/png"
+  }, {
+    "src": "/static/i.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {
+    "src": "/static/i.png",
+    "sizes": "152x152",
+    "type": "image/png"
+  }, {
+    "src": "/static/i.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }, {
+    "src": "/static/i.png",
+    "sizes": "256x256",
+    "type": "image/png"
+  }],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#3367d6",
+  "theme_color": "#3367d6"
+}

@@ -1,0 +1,233 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Base64 Image Encode And Decode</title>
+
+    <style>
+        .cst {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        
+        .ipg {
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            padding: 8px;
+            border: none;
+            outline: none;
+            background: #3367d6;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class=cst>
+            <br>
+            <span>Choose one if the following</span>
+            <div>
+                <div class=buttons-row>
+                    <span class=button-sp>
+                        <button class=ipg id=urld>Base64 Decode</button>
+                        <button class=ipg id=urle>Base64 Encode</button>
+                        <script>
+                            var encode_button = document.getElementById("urle");
+                            var decode_button = document.getElementById("urld");
+                            encode_button.onclick = function () {
+                                document.getElementById("url-decoder").style.display = "none";
+                                document.getElementById("url-encoder").style.display = "block";
+                            }
+                            decode_button.onclick = function () {
+                                document.getElementById("url-decoder").style.display = "block";
+                                document.getElementById("url-encoder").style.display = "none";
+                            }
+                        </script>
+                    </span>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <script>
+                var b = document.getElementById("urld");
+                b.onmouseover = function() {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.onmouseout = function() {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                b.ontouchstart = function() {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.ontouchend = function() {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                var ab = document.getElementById("urle");
+                ab.onmouseover = function() {
+                    ab.style.boxShadow = "3px 3px #d9dce0";
+                }
+                ab.onmouseout = function() {
+                    ab.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                ab.ontouchstart = function() {
+                    ab.style.boxShadow = "3px 3px #d9dce0";
+                }
+                ab.ontouchend = function() {
+                    ab.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+            </script>
+            <div id=url-encoder style="display: none;">
+                <div class=image_upload_area>
+                    <span class=Todo add stuff></span>
+                    <span>Upload the Image You Want To Upload</span>
+                    <form method=POST enctype=multipart/form-data action="/upload">
+                        <div>
+                            <label for="file-upload">
+                                <span id="sp_oc" style="font-size: 12;" class=ipg>Upload Files</span>
+                                <input id="file-upload" type=file name=file>
+                            </label>
+                            <input id=submit_image class=ipg type="submit">
+                        </div>
+
+                    </form>
+                </div>
+
+                <script>
+                    var ii_ = document.getElementById('file-upload');
+                    ii_.oninput = function(e) {
+                        console.log(e.target.files)
+                        file = e.target.files[0];
+                        if (file.type.indexOf("image") == -1 && file.type.indexOf("video") == -1) {
+                            document.getElementById("submit_image").style.display = 'none';
+                        } else {
+                            document.getElementById("submit_image").style.display = 'inline';
+                        }
+                    }
+                    var spans = document.getElementById("sp_oc");
+                    spans.onclick = function() {
+                        spans.style.backgroundColor = "#212121";
+                        spans.innerHTML = "Done";
+
+                    }
+                </script>
+                <br>
+                <br>
+                <span>OR Enter the Direct URL of the Image</span>
+                <div class=txtar>
+                    <input id=enc></input>
+                    <div class=encode_button_1>
+                        <button id=f-enc class=ipg>encode</button>
+                    </div>
+                </div>
+            </div>
+            <div id=url-decoder style="display: none;">
+                <span>Enter the Base64 encoded text You want to Decode</span>
+                <div class=txtar>
+                    <textarea id=dec style="height:200;width:90%;"></textarea>
+                    <div>
+                        <span>Please enter your required file extension without the period
+                            <b>
+                                <em>
+                                    <strong>(.)</strong>
+                                </em>
+                            </b>
+                            <button class=ipg onclick="this.innerHTML='Because the program cannot determine the filetype automatically..not adding an extension will default to .jpg';">Why?</button>
+                            <div>
+                                <input id=f_ext name=usr_ext type=text value="jpg">
+                            </div>
+                        </span>
+                    </div>
+                    <div class="decode_button_1">
+                        <button id=f-dec class=ipg>decode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=pholder style="display:none">In Works
+            <script>
+                var s = document.getElementById("f-enc");
+                var f = document.getElementById("f-dec");
+                s.onclick = function() {
+                    var e_ar = document.getElementById("enc");
+                    var sts = e_ar.value;
+                    params = "to_encode=" + sts + "&type=url";
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/base64-image-encoder', true);
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var data = xhr.response;
+                            e_ar.value = data;
+                            make_elements(data);
+                        }
+                    }
+                    xhr.send(params)
+                }
+                f.onclick = function() {
+                    var dvs = document.createElement("div");
+                    dvs.style.display = "none";
+                    var frm = document.createElement("form");
+                    var inp = document.createElement("input");
+                    inp.type = "text";
+                    inp.value = document.getElementById("dec").value;
+                    inp.name = "b64text";
+                    frm.appendChild(inp);
+                    var inp2 = document.createElement("input");
+                    inp2.name = document.getElementById("f_ext").name;
+                    inp2.value = document.getElementById("f_ext").value;
+                    frm.appendChild(inp2);
+                    frm.action = '/base64-image-decoder';
+                    frm.method = "POST";
+                    dvs.appendChild(frm);
+                    document.body.appendChild(dvs);
+                    frm.submit();
+                }
+
+                function make_elements(uri) {
+                    var _div_ = document.getElementsByClassName("cst")[0];
+                    _div_.innerHTML = "";
+                    var sp1 = document.createElement("span");
+                    sp1.innerHTML =
+                        "Here is The code to use in html and css tags..also content types of text/html can be used in iframe tags";
+                    var txtar1 = document.createElement("textarea");
+                    txtar1.style.width = "90%";
+                    txtar1.style.height = "300";
+                    txtar1.innerText = uri;
+                    var dvel = document.createElement("div");
+                    dvel.appendChild(document.createElement("br"));
+                    dvel.appendChild(txtar1);
+                    sp1.appendChild(dvel)
+                    _div_.appendChild(sp1);
+                }
+            </script>
+
+        </div>
+</body>
+
+</html>

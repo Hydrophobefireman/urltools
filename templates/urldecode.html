@@ -1,0 +1,132 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>URL Encode And Decode</title>
+    <style>
+        .cst {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .ipg {
+
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            padding: 8px;
+            border: none;
+            outline: none;
+            background: #3367d6;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class=cst>
+            <br>
+            <span>Choose one if the following</span>
+            <div>
+                <div class=buttons-row>
+                    <span class=button-sp>
+                        <button class=ipg id=urld>Decode URL</button>
+                        <button class=ipg id=urle>Encode Url</button>
+                        <script>
+                            var encode_button = document.getElementById("urle");
+                            var decode_button = document.getElementById("urld");
+                            encode_button.onclick = function () {
+                                document.getElementById("url-decoder").style.display = "none";
+                                document.getElementById("url-encoder").style.display = "block";
+                            }
+                            decode_button.onclick = function () {
+                                document.getElementById("url-decoder").style.display = "block";
+                                document.getElementById("url-encoder").style.display = "none";
+                            }
+                        </script>
+                    </span>
+                </div>
+            </div>
+            <script>
+                var b = document.getElementById("urld");
+                b.onmouseover = function () {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.onmouseout = function () {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                b.ontouchstart = function () {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.ontouchend = function () {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                var ab = document.getElementById("urle");
+                ab.onmouseover = function () {
+                    ab.style.boxShadow = "3px 3px #d9dce0";
+                }
+                ab.onmouseout = function () {
+                    ab.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                ab.ontouchstart = function () {
+                    ab.style.boxShadow = "3px 3px #d9dce0";
+                }
+                ab.ontouchend = function () {
+                    ab.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+            </script>
+            <div id=url-encoder style="display: none;">
+                <span>Enter The URL You want to Encode</span>
+                <div class=txtar>
+                    <textarea id=enc style="height:200;width:90%;">
+                    </textarea>
+                    <div>
+                        <button id=f-enc class=ipg>encode url</button>
+                    </div>
+                </div>
+            </div>
+            <div id=url-decoder style="display: none;">
+                <span>Enter The URL You want to Decode</span>
+                <div class=txtar>
+                    <textarea id=dec style="height:200;width:90%;">
+                    </textarea>
+                    <div>
+                        <button id=f-dec class=ipg>decode url</button>
+                    </div>
+                </div>
+                <script>
+                    document.getElementById("enc").value = "";
+                    document.getElementById("dec").value = "";
+                </script>
+            </div>
+            <script>
+                var s = document.getElementById("f-enc");
+                var f = document.getElementById("f-dec");
+                s.onclick = function () {
+                    var e_ar = document.getElementById("enc");
+                    var e_text = encodeURIComponent(e_ar.value);
+                    e_ar.value = e_text;
+                }
+                f.onclick = function () {
+                    var e_ar = document.getElementById("dec");
+                    var e_text = decodeURIComponent(e_ar.value);
+                    e_ar.value = e_text;
+                }
+            </script>
+        </div>

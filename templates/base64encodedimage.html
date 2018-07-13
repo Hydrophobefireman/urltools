@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Base64 Image</title>
+
+    <style>
+        .cst {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .ipg {
+
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            padding: 8px;
+            border: none;
+            outline: none;
+            background: #3367d6;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class=cst>
+            <br>
+            <span>Here is the base64 encoded data of your image/file</span>
+            <div class=b64data>
+                <textarea style="height: 200px;width:90%;" id=txt_></textarea>
+                <div>
+                    <button class=ipg id=ipg2 onclick="history.back();">Click here to go back</button>
+                </div>
+            </div>
+            <script>
+                function decodehtml(html) {
+                    var txt = document.createElement("textarea");
+                    txt.innerHTML = html;
+                    return txt.value;
+                }
+                var texts = decodehtml("{{uri}}");
+                document.getElementById("txt_").value = texts;
+                var b = document.getElementById("ipg3");
+                b.onmouseover = function () {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.onmouseout = function () {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                b.ontouchstart = function () {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.ontouchend = function () {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>

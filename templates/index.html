@@ -1,0 +1,138 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="URLTOOLS PWA">
+    <link rel="apple-touch-icon" href="/static/i.png">
+    <meta name="msapplication-TileImage" content="/static/i.png">
+    <meta name="msapplication-TileColor" content="#3367d6">
+    <title>URL Tools and More!</title>
+</head>
+<style>
+    a {
+        text-decoration: none;
+    }
+
+    .input_gosb {
+
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        padding: 8px;
+        border: none;
+        outline: none;
+        background: #3367d6;
+        color: white;
+        text-transform: uppercase;
+        cursor: pointer;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    textarea,
+    input,
+    button {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .center_stuff {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center
+    }
+</style>
+
+<body>
+    <div>
+        <div class=center_stuff>
+            <div class=welcome>
+                <span>Welcome To URLTools!</span>
+            </div>
+            <div class=Select_dialogue>
+                <br>
+                <span>Select one of the options</span>
+            </div>
+            <div class=Buttons_ts>
+                <div class=row1>
+                    <br>
+                    <span class=row1area>
+                        <a href="/url-encodings">
+                            <button id=urld class=input_gosb>URL Encode/Decode</button>
+                        </a>
+                        <a href="/base64-text">
+                            <button id=b64txtd class=input_gosb>Base64 text Encode/Decode</button>
+                        </a>
+                    </span>
+                    <br>
+                    <br>
+                </div>
+                <div class=row2>
+                    <span class=row2area>
+                        <a href="/base64-image">
+                            <button id=b64imgd class=input_gosb>Base64 Image Encode/Decode</button>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <script>
+                var b = document.getElementById("urld");
+                b.onmouseover = function () {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.onmouseout = function () {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                b.ontouchstart = function () {
+                    b.style.boxShadow = "3px 3px #d9dce0";
+                }
+                b.ontouchend = function () {
+                    b.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                var ab = document.getElementById("b64txtd");
+                ab.onmouseover = function () {
+                    ab.style.boxShadow = "3px 3px #d9dce0";
+                }
+                ab.onmouseout = function () {
+                    ab.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                ab.ontouchstart = function () {
+                    ab.style.boxShadow = "3px 3px #d9dce0";
+                }
+                ab.ontouchend = function () {
+                    ab.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                var yb = document.getElementById("b64imgd");
+                yb.onmouseover = function () {
+                    yb.style.boxShadow = "3px 3px #d9dce0";
+                }
+                yb.onmouseout = function () {
+                    yb.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+                yb.ontouchstart = function () {
+                    yb.style.boxShadow = "3px 3px #d9dce0";
+                }
+                yb.ontouchend = function () {
+                    yb.style.boxShadow = "0px 0px #d9dce0";
+
+                }
+            </script>
+            <script src="/static/scripts/app.js" async></script>
+</body>
+
+
+</html>
