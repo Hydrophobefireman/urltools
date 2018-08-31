@@ -16,8 +16,6 @@ from quart import (
     url_for,
 )
 from htmlmin.minify import html_minify
-from werkzeug.utils import secure_filename
-from werkzeug.datastructures import Headers
 
 app = Quart(__name__)
 """
@@ -127,9 +125,7 @@ async def https():
 async def b64dec():
     b64data = await request.form
     b64data = b64data["b64text"]
-    headers = Headers()
     filen = "file." + request.form["usr_ext"]
-    headers.add("Content-Disposition", "attachment", filename=filen)
     try:
         data = b64data.split(";base64,")[1]
     except:
@@ -142,7 +138,11 @@ async def b64dec():
             data = base64.b64decode(data + "=")
         except:
             return "incorrect padding on the string"
-    return Response(rtd, headers=headers, content_type="application/octet-stream")
+    return Response(
+        rtd,
+        headers={"Content-Disposition": f"Attachment;filename={filen}"},
+        content_type="application/octet-stream",
+    )
 
 
 if __name__ == "__main__":
