@@ -3,37 +3,48 @@ import os
 from urllib.parse import quote, unquote
 
 import requests
-from flask import (Flask, Response, redirect, render_template, request,
-                   send_file, send_from_directory, session,
-                   stream_with_context, url_for)
+from quart import (
+    Quart,
+    Response,
+    redirect,
+    render_template,
+    request,
+    send_file,
+    send_from_directory,
+    session,
+    stream_with_context,
+    url_for,
+)
 from htmlmin.minify import html_minify
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import Headers
-app = Flask(__name__)
-'''
+
+app = Quart(__name__)
+"""
 photo = UploadSet('photo', IMAGES)
 photos(app, IMAGES)
-'''
+"""
 app.secret_key = "yeah-k"
 
 
-@app.route('/upload', methods=['POST'])
-def upload():
-    if request.method == 'POST' and 'file' in request.files:
-        a = request.files['file']
+@app.route("/upload", methods=["POST"])
+async def upload():
+    if request.method == "POST" and "file" in await request.files:
+        a = await request.files
+        a = a["file"]
         mimetype = a.content_type
         data = base64.b64encode(a.read()).decode()
-        DATA_URI = "data:"+mimetype+";base64,"+data
-        return render_template("base64encodedimage.html", uri=DATA_URI)
+        DATA_URI = "data:" + mimetype + ";base64," + data
+        return await render_template("base64encodedimage.html", uri=DATA_URI)
 
 
-def url_of_image(url):
+async def url_of_image(url):
     sess = requests.Session()
     c_len = ""
-    ch_url = sess.head(url)
+    ch_url = sess.head(url, allow_redirects=True)
     try:
         c_len = ch_url.headers["content-length"]
-        c_type = ch_url.headers['content-type']
+        c_type = ch_url.headers["content-type"]
         if int(c_len) >= 25000000:
             return "File too large!"
     except:
@@ -41,72 +52,83 @@ def url_of_image(url):
     final_url = ch_url.url
     final_url = url
     data = base64.b64encode(requests.get(final_url).content).decode("ascii")
-    DATA_URI = "data:"+c_type+";base64,"+data
+    DATA_URI = "data:" + c_type + ";base64," + data
     return DATA_URI
 
 
 @app.route("/")
-def index():
-    return render_template("index.html")
+async def index():
+    return await render_template("index.html")
 
 
 @app.route("/url-encodings")
-def url_enc():
-    return render_template("urldecode.html")
+async def url_enc():
+    return await render_template("urldecode.html")
 
 
 @app.route("/base64-text/")
-def b64_main():
-    return render_template("base64text.html")
+async def b64_main():
+    return await render_template("base64text.html")
 
 
 @app.route("/base64-text-encoder", methods=["POST"])
-def enc_text():
-    to_encode = request.form["to_encode"]
+async def enc_text():
+    _to_encode = await request.form
+    to_encode = _to_encode["to_encode"]
     data = base64.b64encode(to_encode.encode("ascii")).decode("ascii")
     return data
 
 
 @app.route("/base64-text-decoder", methods=["POST"])
-def b64decode():
-    to_decode = request.form["to_decode"]
+async def b64decode():
+    _to_encode = await request.form
+    to_decode = _to_encode["to_decode"]
     try:
         data = base64.b64decode(to_decode)
     except:
         try:
-            data = base64.b64decode(to_decode+"=")
+            data = base64.b64decode(to_decode + "=")
         except:
             return "incorrect padding on the string"
     return data
 
 
 @app.route("/base64-image/")
-def b64_img_main():
-    return render_template("base64image.html")
+async def b6_img_main():
+    return await render_template("base64image.html")
 
 
 @app.route("/base64-image-encoder", methods=["POST"])
-def b64img():
-    data = request.form["type"]
+async def b64img():
+    data = await request.form
+    data = data["type"]
+    te = await request.form
     if data == "url":
-        b64_ = url_of_image(request.form["to_encode"])
+        b64_ = await url_of_image(te["to_encode"])
         return b64_
-
     return "TODO:support for image uploads and url uploads"
 
 
 @app.before_request
-def https():
-    if request.endpoint in app.view_functions and not request.is_secure and not "127.0.0.1" in request.url and not "localhost" in request.url and not "192.168." in request.url:
+async def https():
+    if (
+        request.endpoint in app.view_functions
+        and not request.is_secure
+        and request.headers.get("X-Forwarded-Proto", "http") != "https"
+        and not "127.0.0.1" in request.url
+        and not "localhost" in request.url
+        and not "192.168." in request.url
+    ):
         if "herokuapp" in request.url:
-            return redirect(request.url.replace("http://", "https://"), code=301)
+            return redirect(request.url.replace("http://", "https://"), status_code=301)
 
 
 @app.route("/base64-image-decoder", methods=["POST"])
-def b64dec():
-    b64data = request.form['b64text']
+async def b64dec():
+    b64data = await request.form
+    b64data = b64data["b64text"]
     headers = Headers()
-    filen = "file."+request.form['usr_ext']
+    filen = "file." + request.form["usr_ext"]
     headers.add("Content-Disposition", "attachment", filename=filen)
     try:
         data = b64data.split(";base64,")[1]
@@ -117,10 +139,10 @@ def b64dec():
         rtd = base64.b64decode(data)
     except:
         try:
-            data = base64.b64decode(data+"=")
+            data = base64.b64decode(data + "=")
         except:
             return "incorrect padding on the string"
-    return Response(rtd, headers=headers, content_type='application/octet-stream')
+    return Response(rtd, headers=headers, content_type="application/octet-stream")
 
 
 if __name__ == "__main__":
