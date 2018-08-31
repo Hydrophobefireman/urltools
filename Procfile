@@ -1,1 +1,1 @@
-web: hypercorn urltools:app -k 5 -b 0.0.0.0:$PORT
+web: hypercorn urltools:app -k5 -b 0.0.0.0:$PORT
